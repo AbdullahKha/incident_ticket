@@ -23,7 +23,7 @@ class System extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'name_system';
 
     /**
      * The columns that should be searched.

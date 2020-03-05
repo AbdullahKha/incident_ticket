@@ -22,7 +22,7 @@ class TypeProblem extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'type_problem';
 
     /**
      * The columns that should be searched.
@@ -44,7 +44,7 @@ class TypeProblem extends Resource
         return [
             ID::make()->sortable(),
             Text::make('type_problem'),
-            BelongsTo::make('Problem'),
+            BelongsTo::make('User','user'),
         ];
     }
 

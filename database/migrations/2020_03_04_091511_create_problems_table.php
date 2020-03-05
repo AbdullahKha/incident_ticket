@@ -19,6 +19,7 @@ class CreateProblemsTable extends Migration
             $table->unsignedBigInteger('created_by_user_id');
             $table->unsignedBigInteger('solved_by_user_id');
             $table->unsignedBigInteger('system_id');
+            $table->unsignedBigInteger('TypeProblem_id');
             $table->string('title');
             $table->dateTime('dateTime_problem');
             $table->string('levels_problem');
@@ -32,14 +33,19 @@ class CreateProblemsTable extends Migration
                 ->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-            /*$table->foreign('solved_by_user_id')
+            $table->foreign('solved_by_user_id')
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade')
-                ->onUpdate('cascade');*/
+                ->onUpdate('cascade');
             $table->foreign('system_id')
                 ->references('id')
                 ->on('systems')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->foreign('TypeProblem_id')
+                ->references('id')
+                ->on('type_problems')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });

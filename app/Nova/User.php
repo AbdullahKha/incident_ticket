@@ -9,6 +9,8 @@ use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\MorphToMany;
+
 
 class User extends Resource
 {
@@ -64,6 +66,11 @@ class User extends Resource
                 ->updateRules('nullable', 'string', 'min:8'),
             HasMany::make('Problem'),
             HasMany::make('System'),
+            HasMany::make('TypeProblem'),
+            // ...
+        MorphToMany::make('Roles', 'roles', \Vyuldashev\NovaPermission\Role::class),
+        MorphToMany::make('Permissions', 'permissions', \Vyuldashev\NovaPermission\Permission::class),
+
         ];
     }
 

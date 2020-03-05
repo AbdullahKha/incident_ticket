@@ -5,10 +5,11 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable,HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -37,9 +38,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     public function problem(){
-        return $this->hasMany(Problem::class);
+        return $this->hasMany(Problem::class,'created_by_user_id');
     }
     public function system(){
-        return $this->hasMany(System::class);
+        return $this->hasMany(System::class,'user_id');
+    }
+    public function TypeProblem(){
+        return $this->hasMany(TypeProblem::class,'created_by_user_id');
     }
 }

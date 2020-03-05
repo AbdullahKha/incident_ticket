@@ -9,6 +9,7 @@ use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -47,7 +48,6 @@ class Problem extends Resource
     {
         return [
             ID::make()->sortable(),
-
             Text::make('title'),
             DateTime::make('dateTime_problem'),
             Trix::make('reason_problem'),
@@ -59,9 +59,10 @@ class Problem extends Resource
                 'medium'=>'Medium',
                 'low'=>'low',
             ])->hideWhenUpdating(),
-            BelongsTo::make('User'),
+            BelongsTo::make('User','user'),
+            BelongsTo::make('User','solve'),
             BelongsTo::make('System'),
-            HasMany::make('TypeProblem'),
+            BelongsTo::make('TypeProblem'),
 
 
 

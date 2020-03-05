@@ -17,11 +17,11 @@ class CreateTypeProblemsTable extends Migration
         Schema::create('type_problems', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('type_problem');
-            $table->unsignedBigInteger('problem_id');
+            $table->unsignedBigInteger('created_by_user_id');
             $table->timestamps();
-            $table->foreign('problem_id')
+            $table->foreign('created_by_user_id')
                 ->references('id')
-                ->on('problems')
+                ->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
