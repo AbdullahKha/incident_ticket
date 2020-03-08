@@ -17,11 +17,11 @@ class CreateProblemsTable extends Migration
         Schema::create('problems', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('created_by_user_id');
-            $table->unsignedBigInteger('solved_by_user_id');
+            $table->unsignedBigInteger('solved_by_user_id')->nullable();
             $table->unsignedBigInteger('system_id');
             $table->unsignedBigInteger('TypeProblem_id');
             $table->string('title');
-            $table->dateTime('dateTime_problem');
+            $table->timestamp('dateTime_problem');
             $table->string('levels_problem');
             $table->text('reason_problem');
             $table->text('scenario_problem');

@@ -40,7 +40,9 @@ class ProblemPolicy
      */
     public function create(User $user)
     {
+
         return $user->hasPermissionTo("create problem");
+
     }
 
     /**

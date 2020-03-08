@@ -46,10 +46,11 @@ class Problem extends Resource
      */
     public function fields(Request $request)
     {
+        logger(json_encode($request));
         return [
             ID::make()->sortable(),
             Text::make('title'),
-            DateTime::make('dateTime_problem'),
+            DateTime::make('dateTime_problem')->showOnDetail(),
             Trix::make('reason_problem'),
             Trix::make('scenario_problem'),
             Trix::make('longTerm_solution'),
@@ -59,8 +60,8 @@ class Problem extends Resource
                 'medium'=>'Medium',
                 'low'=>'low',
             ])->hideWhenUpdating(),
-            BelongsTo::make('User','user'),
-            BelongsTo::make('User','solve'),
+            BelongsTo::make('User','user')->exceptOnForms(),
+            BelongsTo::make('User','solve')->exceptOnForms()->showOnUpdating()->hideFromDetail(),
             BelongsTo::make('System'),
             BelongsTo::make('TypeProblem'),
 
@@ -112,5 +113,17 @@ class Problem extends Resource
     public function actions(Request $request)
     {
         return [];
+    }
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+       // logger('hey');
+        if (\Auth::user()->hasRole('admin')) {
+           // logger('norah0');
+            return $query;
+        } else {
+          //  logger('halajh');
+            return $query->where('created_by_user_id', \Auth::user()->id);
+    }
+
     }
 }
