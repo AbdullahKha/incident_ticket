@@ -12,6 +12,7 @@ class Permissions extends Seeder
      *
      * @return void
      */
+
     public function run()
     {
 
@@ -21,6 +22,9 @@ class Permissions extends Seeder
             'delete problem',
             'create problem',
             'access others resources',
+
+
+
         ];
 
         foreach ($permissions as $permission){

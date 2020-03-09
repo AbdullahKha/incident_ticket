@@ -10,6 +10,11 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class TypeProblem extends Resource
 {
+
+    public static function label()
+    {
+        return __('TypeProblem');
+    }
     /**
      * The model the resource corresponds to.
      *
@@ -42,9 +47,9 @@ class TypeProblem extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make()->sortable(),
-            Text::make('type_problem'),
-            BelongsTo::make('User','user'),
+            ID::make(__('Number'),'id')->sortable(),
+            Text::make(__('TypeProblem'),'type_problem')->rules('required','max:255'),
+            BelongsTo::make(__('CreatedByTypeProblem'),'user',User::class),
         ];
     }
 

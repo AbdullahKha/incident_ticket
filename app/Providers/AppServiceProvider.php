@@ -33,6 +33,6 @@ class AppServiceProvider extends ServiceProvider
 
         });
 
-        /*Schema::defaultStringLength(199);*/
+        Schema::defaultStringLength(191);
     }
 }

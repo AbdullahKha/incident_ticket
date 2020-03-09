@@ -15,6 +15,10 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Problem extends Resource
 {
+    public static function label()
+    {
+        return __('Problem');
+    }
     /**
      * The model the resource corresponds to.
      *
@@ -48,22 +52,23 @@ class Problem extends Resource
     {
         logger(json_encode($request));
         return [
-            ID::make()->sortable(),
-            Text::make('title'),
-            DateTime::make('dateTime_problem')->showOnDetail(),
-            Trix::make('reason_problem'),
-            Trix::make('scenario_problem'),
-            Trix::make('longTerm_solution'),
-            Trix::make('shortTerm_solution'),
-            Select::make('levels_problem')->options([
-                'high'=>'High',
-                'medium'=>'Medium',
-                'low'=>'low',
-            ])->hideWhenUpdating(),
-            BelongsTo::make('User','user')->exceptOnForms(),
-            BelongsTo::make('User','solve')->exceptOnForms()->showOnUpdating()->hideFromDetail(),
-            BelongsTo::make('System'),
-            BelongsTo::make('TypeProblem'),
+            ID::make(__('IdProblem'),'id')->sortable(),
+            Text::make(__('Title'),'title') ->rules('required', 'max:255'),
+            DateTime::make(__('DateTime'),'dateTime_problem')->showOnDetail()->rules('required'),
+            Trix::make(__('ReasonProblem'),'reason_problem') ->rules('required'),
+            Trix::make(__('ScenarioProblem'),'scenario_problem')->rules('required'),
+            Trix::make(__('LongTermSolution'),'longTerm_solution'),
+            Trix::make(__('ShortTermSolution'),'shortTerm_solution'),
+            Select::make(__('LevelsProblem'),'levels_problem')->options([
+                'عالي'=>__('High'),
+                'متوسط'=>__('Medium'),
+                'ضعيف'=>__('low'),
+
+            ]) ->rules('required')->hideWhenUpdating(),
+            BelongsTo::make(__('CreatedBy'),'user',User::class)->exceptOnForms(),
+            BelongsTo::make(__('SolvedBy'),'solve',User::class)->exceptOnForms()->showOnUpdating(),
+            BelongsTo::make(__('SystemName'),'system',System::class),
+            BelongsTo::make(__('TypeProblem'),'typeProblem',TypeProblem::class),
 
 
 

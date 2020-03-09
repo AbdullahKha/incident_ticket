@@ -14,6 +14,10 @@ use Laravel\Nova\Fields\MorphToMany;
 
 class User extends Resource
 {
+    public static function label()
+    {
+        return __('Users');
+    }
     /**
      * The model the resource corresponds to.
      *
@@ -46,30 +50,31 @@ class User extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make()->sortable(),
+            ID::make(__('ID'),'id')->sortable(),
 
-            Gravatar::make(),
+            Gravatar::make(__('avataruser')),
 
-            Text::make('Name')
+            Text::make(__('User Name'),'name')
                 ->sortable()
                 ->rules('required', 'max:255'),
 
-            Text::make('Email')
+            Text::make(__('Email Address'),'email')
                 ->sortable()
                 ->rules('required', 'email', 'max:254')
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
 
-            Password::make('Password')
+            Password::make(__('Password'),'password')
                 ->onlyOnForms()
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
-            HasMany::make('Problem'),
-            HasMany::make('System'),
-            HasMany::make('TypeProblem'),
+            HasMany::make(__('Problem'),'problem',Problem::class),
+
+            HasMany::make(__('System'),'system',System::class),
+            HasMany::make(__('TypeProblem'),'typeProblem',TypeProblem::class),
             // ...
-        MorphToMany::make('Roles', 'roles', \Vyuldashev\NovaPermission\Role::class),
-        MorphToMany::make('Permissions', 'permissions', \Vyuldashev\NovaPermission\Permission::class),
+        MorphToMany::make(__('Roles'), 'roles', \Vyuldashev\NovaPermission\Role::class),
+        MorphToMany::make(__('Permissions'), 'permissions', \Vyuldashev\NovaPermission\Permission::class),
 
         ];
     }

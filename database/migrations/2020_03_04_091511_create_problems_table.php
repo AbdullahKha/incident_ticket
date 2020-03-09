@@ -33,7 +33,7 @@ class CreateProblemsTable extends Migration
                 ->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-            $table->foreign('solved_by_user_id')
+            $table->foreign('solved_by_user_id')->nullable()
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade')

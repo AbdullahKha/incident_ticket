@@ -11,6 +11,11 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class System extends Resource
 {
+
+    public static function label()
+    {
+        return __('System');
+    }
     /**
      * The model the resource corresponds to.
      *
@@ -43,11 +48,11 @@ class System extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make()->sortable(),
-            Text::make('name_system'),
+            ID::make(__('IdSystem'),'id')->sortable(),
+            Text::make(__('SystemName'),'name_system')->rules('required','max:255'),
 
-            BelongsTo::make('User'),
-            HasMany::make('Problem'),
+            BelongsTo::make(__('CreatedBySystem'),'user',User::class),
+            HasMany::make(__('Problem'),'problem',Problem::class),
         ];
 
     }
