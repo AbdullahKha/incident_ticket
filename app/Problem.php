@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Problem extends Model
 {
-//    protected $casts=[
-//        'dateTime_problem'=>'dateTime'
-//    ];
-//    protected $fillable=[
-//        'dateTime_problem'
-//    ];
+  protected $casts=[
+      'dateTime_problem'=>'dateTime'
+    ];
+   protected $fillable=[
+       'dateTime_problem'
+    ];
     public function user(){
         return $this->belongsTo(User::class, 'created_by_user_id');
     }
