@@ -16,8 +16,11 @@ abstract class Resource extends NovaResource
      */
     public static function indexQuery(NovaRequest $request, $query)
     {
-        return $query;
-    }
+        if (\Auth::user()->hasRole('Admin')) {
+            return $query;
+        } else {
+            return null;
+        }    }
 
     /**
      * Build a Scout search query for the given resource.

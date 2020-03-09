@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\User;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\HasMany;
@@ -48,11 +49,16 @@ class System extends Resource
     public function fields(Request $request)
     {
         return [
+
             ID::make(__('IdSystem'),'id')->sortable(),
             Text::make(__('SystemName'),'name_system')->rules('required','max:255'),
-
             BelongsTo::make(__('CreatedBySystem'),'user',User::class),
             HasMany::make(__('Problem'),'problem',Problem::class),
+            ID::make()->sortable(),
+            Text::make('name_system'),
+            BelongsTo::make('User'),
+            HasMany::make('Problem'),
+
         ];
 
     }
@@ -100,4 +106,23 @@ class System extends Resource
     {
         return [];
     }
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+
+        if (\Auth::user()->hasRole('Admin')) {
+            return $query;
+        }
+            else{
+                return false;
+            }
+
+    }
+    public static function availableForNavigation(Request $request)
+    {
+        if (\Auth::user()->hasRole('Admin')) {
+            return true;
+        } else {
+            return false;
+        }    }
+
 }

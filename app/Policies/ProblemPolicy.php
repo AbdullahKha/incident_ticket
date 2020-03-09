@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Problem;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class ProblemPolicy
 {
@@ -17,10 +18,11 @@ class ProblemPolicy
      * @param  \App\Tag  $tag
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny( User $user)
     {
-        return $user->hasPermissionTo("view problem");
+        return true;
     }
+
 
     /**
      * @param User $user
@@ -29,7 +31,7 @@ class ProblemPolicy
      */
     public function view(User $user, Problem $problem)
     {
-        return $this->checkPermissionTo("view", $user, $problem);
+        return true;
     }
 
     /**
@@ -106,3 +108,4 @@ class ProblemPolicy
         return $user->id === $problem->created_by;
     }
 }
+

@@ -12,6 +12,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use mysql_xdevapi\Result;
 
 class Problem extends Resource
 {
@@ -63,16 +64,27 @@ class Problem extends Resource
                 'عالي'=>__('High'),
                 'متوسط'=>__('Medium'),
                 'ضعيف'=>__('low'),
-
             ]) ->rules('required')->hideWhenUpdating(),
             BelongsTo::make(__('CreatedBy'),'user',User::class)->exceptOnForms(),
             BelongsTo::make(__('SolvedBy'),'solve',User::class)->exceptOnForms()->showOnUpdating(),
             BelongsTo::make(__('SystemName'),'system',System::class),
             BelongsTo::make(__('TypeProblem'),'typeProblem',TypeProblem::class),
-
-
-
-
+            ID::make()->sortable(),
+            Text::make('title'),
+            DateTime::make('Date','dateTime_problem')->showOnDetail(),
+            Trix::make('Reasons','reason_problem'),
+            Trix::make('Scenario','scenario_problem'),
+            Trix::make('Long Term','longTerm_solution'),
+            Trix::make('Short Term','shortTerm_solution'),
+            Select::make('Levels pf Problem','levels_problem')->options([
+                'high'=>'High',
+                'medium'=>'Medium',
+                'low'=>'low',
+            ])->hideWhenUpdating(),
+            BelongsTo::make('User','user')->exceptOnForms(),
+            BelongsTo::make('User','solve')->exceptOnForms()->showOnUpdating()->hideFromDetail(),
+            BelongsTo::make('System'),
+            BelongsTo::make('TypeProblem'),
         ];
     }
 
@@ -121,12 +133,9 @@ class Problem extends Resource
     }
     public static function indexQuery(NovaRequest $request, $query)
     {
-       // logger('hey');
-        if (\Auth::user()->hasRole('admin')) {
-           // logger('norah0');
+        if (\Auth::user()->hasRole('Admin')) {
             return $query;
         } else {
-          //  logger('halajh');
             return $query->where('created_by_user_id', \Auth::user()->id);
     }
 

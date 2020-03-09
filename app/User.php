@@ -36,6 +36,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'dateTime_problem'=>'datetime'
     ];
     public function problem(){
         return $this->hasMany(Problem::class,'created_by_user_id');
@@ -46,4 +47,8 @@ class User extends Authenticatable
     public function TypeProblem(){
         return $this->hasMany(TypeProblem::class,'created_by_user_id');
     }
+    public function type_problem(){
+        return $this->hasMany(TypeProblem::class);
+    }
+
 }

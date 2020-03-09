@@ -77,10 +77,14 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function tools()
     {
-        return [
-            // ...
+        if (\Auth::user()->hasRole('Admin')){
+            return [
             \Vyuldashev\NovaPermission\NovaPermissionTool::make(),
-        ];
+        ];}
+        else{
+            return [];
+
+        }
     }
 
     /**
@@ -92,4 +96,5 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         //
     }
+
 }

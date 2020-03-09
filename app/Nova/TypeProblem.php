@@ -96,4 +96,19 @@ class TypeProblem extends Resource
     {
         return [];
     }
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if (\Auth::user()->hasRole('Admin')) {
+            return $query;
+        } else {
+           return null;
+        }
+    }
+    public static function availableForNavigation(Request $request)
+    {
+        if (\Auth::user()->hasRole('Admin')) {
+            return true;
+        } else {
+            return false;
+        }    }
 }
